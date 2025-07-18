@@ -6,6 +6,22 @@
     <title>Produk Kami</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional styles for iframe container */
+        .iframe-container {
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 15px;
+            background: transparent;
+        }
+        
+        #productFrame {
+            width: 100%;
+            border: none;
+            min-height: 300px; /* Fallback initial height */
+            transition: height 0.3s ease;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -22,15 +38,16 @@
         <h1>Katalog Produk</h1>
         <p>Jelajahi berbagai produk unggulan kami</p>
         
-        <!-- Iframe untuk menampilkan list produk -->
-        <iframe 
-            src="https://gifary10.github.io/isr-product/list.html" 
-            frameborder="0" 
-            style="width:100%;" 
-            id="productFrame"
-            title="Daftar Produk"
-            loading="lazy">
-        </iframe>
+        <!-- Iframe container with loading state -->
+        <div class="iframe-container">
+            <iframe 
+                src="https://gifary10.github.io/isr-product/index.html" 
+                id="productFrame"
+                title="Daftar Produk"
+                loading="lazy"
+                allow="cross-origin-isolated">
+            </iframe>
+        </div>
     </div>
     
     <nav class="tab-bar">
@@ -53,23 +70,58 @@
     </nav>
 
     <script>
-        // Handle dynamic iframe height adjustment
-        window.addEventListener('message', function(e) {
-            if (e.data && e.data.type === 'iframeHeight') {
-                const frame = document.getElementById('productFrame');
-                frame.style.height = e.data.height + 'px';
-                
-                // Add smooth transition
-                frame.style.transition = 'height 0.3s ease';
+        // Handle cross-origin iframe height adjustment
+        function handleIframeHeight() {
+            const frame = document.getElementById('productFrame');
+            let lastHeight = 0;
+            let resizeTimeout;
+            
+            // Function to check and update iframe height
+            function checkHeight() {
+                try {
+                    // Try to post message to iframe (might be blocked by CORS)
+                    frame.contentWindow.postMessage({
+                        type: 'requestHeight'
+                    }, 'https://gifary10.github.io');
+                } catch (e) {
+                    console.log('Cross-origin communication error:', e);
+                    // Fallback: periodic height check
+                    const newHeight = frame.contentDocument?.body?.scrollHeight || 0;
+                    if (newHeight !== lastHeight && newHeight > 100) {
+                        lastHeight = newHeight;
+                        frame.style.height = newHeight + 'px';
+                    }
+                }
             }
-        });
-
-        // Initial resize observer for iframe
-        const frame = document.getElementById('productFrame');
-        frame.onload = function() {
-            // Send initial height request to iframe
-            frame.contentWindow.postMessage({ type: 'requestHeight' }, '*');
-        };
+            
+            // Event listener for messages from iframe
+            window.addEventListener('message', function(e) {
+                if (e.origin !== 'https://gifary10.github.io') return;
+                if (e.data?.type === 'iframeHeight') {
+                    clearTimeout(resizeTimeout);
+                    const newHeight = e.data.height;
+                    if (newHeight !== lastHeight) {
+                        lastHeight = newHeight;
+                        frame.style.height = newHeight + 'px';
+                    }
+                }
+            });
+            
+            // Initial check after load
+            frame.onload = function() {
+                checkHeight();
+                // Periodic checks as fallback
+                resizeTimeout = setInterval(checkHeight, 1000);
+            };
+            
+            // Cleanup interval when leaving page
+            window.addEventListener('beforeunload', function() {
+                clearInterval(resizeTimeout);
+            });
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', handleIframeHeight);
     </script>
 </body>
 </html>
