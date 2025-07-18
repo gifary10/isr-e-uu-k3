@@ -1,0 +1,195 @@
+:root {
+    --orange-primary: #fa7a06;
+    --orange-dark: #e06d05;
+    --gray-light: #f8f8f8;       /* Slightly lighter gray */
+    --gray-medium: #666666;      /* Better contrast */
+    --gray-dark: #3a3a3a;        /* Darker gray */
+    --gray-darker: #1a1a1a;      /* Near black */
+    --text-dark: #222222;        /* Softer black */
+    --text-light: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: var(--gray-light);
+    color: var(--text-dark);
+    line-height: 1.5;           /* Tighter line spacing */
+    padding-bottom: 60px;       /* Reduced from 70px */
+}
+
+/* Navbar - Tighter padding */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;        /* Reduced from 15px 20px */
+    background-color: var(--gray-darker); /* Changed from white */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    height: 36px;              /* Slightly smaller */
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 100%;
+}
+
+.product-btn {
+    background-color: var(--orange-primary);
+    color: white;
+    border: none;
+    padding: 8px 16px;         /* Tighter padding */
+    border-radius: 4px;        /* Slightly smaller */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease; /* Faster transition */
+    display: flex;
+    align-items: center;
+    gap: 6px;                  /* Reduced gap */
+    text-decoration: none;
+    font-size: 13px;           /* Slightly smaller */
+}
+
+.product-btn:hover {
+    background-color: var(--orange-dark);
+    transform: translateY(-1px); /* More subtle */
+    box-shadow: 0 3px 6px rgba(250, 122, 6, 0.2); /* Softer */
+}
+
+.product-btn i {
+    font-size: 13px;           /* Matched to text */
+}
+
+.container {
+    padding: 20px 16px;        /* Tighter padding */
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 110px); /* Adjusted */
+}
+
+h1 {
+    font-size: 24px;           /* Slightly smaller */
+    margin-bottom: 12px;       /* Tighter */
+    color: var(--orange-primary);
+    font-weight: 600;
+}
+
+p {
+    font-size: 15px;           /* Slightly smaller */
+    color: var(--gray-medium);
+    margin-bottom: 16px;       /* Tighter */
+    line-height: 1.5;          /* Consistent spacing */
+}
+
+/* Tab Bar - Compact version */
+.tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    background-color: var(--gray-darker);
+    box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.1); /* Softer */
+    z-index: 1000;
+    padding: 4px 0;            /* Thinner */
+}
+
+.tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;          /* Tighter */
+    text-decoration: none;
+    color: var(--gray-light);
+    font-size: 11px;           /* Slightly smaller */
+    flex: 1;
+    transition: all 0.2s ease;
+    border-radius: 4px;        /* Slightly smaller */
+    margin: 0 4px;             /* Tighter spacing */
+}
+
+.tab i {
+    font-size: 20px;           /* Slightly smaller */
+    margin-bottom: 3px;        /* Tighter */
+    transition: all 0.2s ease;
+}
+
+.tab.active {
+    color: var(--text-light);
+    background-color: var(--orange-primary);
+    transform: translateY(-4px); /* More subtle */
+    box-shadow: 0 3px 6px rgba(250, 122, 6, 0.2); /* Softer */
+}
+
+.tab.active i {
+    transform: scale(1.05);    /* More subtle */
+}
+
+.tab:not(.active):hover {
+    color: var(--orange-primary);
+    background-color: rgba(250, 122, 6, 0.08); /* More subtle */
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+    .container {
+        padding: 24px;         /* Slightly tighter */
+    }
+    
+    .navbar {
+        padding: 14px 24px;    /* Balanced */
+    }
+    
+    h1 {
+        font-size: 26px;       /* Slightly larger */
+    }
+    
+    .tab {
+        font-size: 12px;       /* Balanced */
+        padding: 10px 4px;     /* Balanced */
+    }
+    
+    .tab i {
+        font-size: 22px;       /* Balanced */
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 10px 12px;    /* Very compact */
+    }
+    
+    .product-btn {
+        padding: 6px 12px;     /* Very compact */
+        font-size: 12px;       /* Slightly smaller */
+    }
+    
+    .logo {
+        height: 32px;         /* More compact */
+    }
+    
+    .container {
+        padding: 16px 12px;    /* Very compact */
+    }
+    
+    h1 {
+        font-size: 22px;      /* Slightly smaller */
+    }
+    
+    .tab i {
+        font-size: 18px;       /* More compact */
+    }
+}

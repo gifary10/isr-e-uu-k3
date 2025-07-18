@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk Kami</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logop.png" alt="Company Logo">
+        </div>
+        <a href="https://gifary10.github.io/isr-login-access" class="product-btn">
+            <i class="fas fa-box-open"></i>
+            Pilih Produk
+        </a>
+    </nav>
+
+    <div class="container">
+        <h1>Katalog Produk</h1>
+        <p>Jelajahi berbagai produk unggulan kami</p>
+        
+        <!-- Iframe untuk menampilkan list produk -->
+        <iframe 
+            src="https://gifary10.github.io/isr-product/list.html" 
+            frameborder="0" 
+            style="width:100%;" 
+            id="productFrame"
+            title="Daftar Produk"
+            loading="lazy">
+        </iframe>
+    </div>
+    
+    <nav class="tab-bar">
+        <a href="index.html" class="tab">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </a>
+        <a href="content.html" class="tab">
+            <i class="fas fa-file-alt"></i>
+            <span>Konten</span>
+        </a>
+        <a href="implement.html" class="tab">
+            <i class="fas fa-cogs"></i>
+            <span>Implementasi</span>
+        </a>
+        <a href="product.html" class="tab active">
+            <i class="fas fa-box-open"></i>
+            <span>Produk</span>
+        </a>
+    </nav>
+
+    <script>
+        // Handle dynamic iframe height adjustment
+        window.addEventListener('message', function(e) {
+            if (e.data && e.data.type === 'iframeHeight') {
+                const frame = document.getElementById('productFrame');
+                frame.style.height = e.data.height + 'px';
+                
+                // Add smooth transition
+                frame.style.transition = 'height 0.3s ease';
+            }
+        });
+
+        // Initial resize observer for iframe
+        const frame = document.getElementById('productFrame');
+        frame.onload = function() {
+            // Send initial height request to iframe
+            frame.contentWindow.postMessage({ type: 'requestHeight' }, '*');
+        };
+    </script>
+</body>
+</html>
